@@ -1,14 +1,16 @@
 package it.unibo.mvc;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.BoxLayout;
 
 /**
  * This class is a simple application that writes a random number on a file.
@@ -19,7 +21,6 @@ import java.util.Random;
  * applications.
  */
 public class MiniGUI {
-
     private static final String TITLE = "A very simple GUI application";
     private static final int PROPORTION = 5;
     private final Random randomGenerator = new Random();
@@ -35,15 +36,25 @@ public class MiniGUI {
         canvas.add(write, BorderLayout.CENTER);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //SEMPRE DENTRO IL COSTRUTTORE!!! da qui codice aggiunto
+        final JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        canvas.add(panel, BorderLayout.CENTER);
+        panel.add(write);
+        final JTextArea tA = new JTextArea("Result");
+        canvas.add(tA, BorderLayout.NORTH); //canvas è quello esterno (abbiamo messo panel dentro canva)
+
         /*
          * Handlers
          */
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
+                System.out.println(randomGenerator.nextInt()); // NOPMD SystemPrintln
             }
-        });
+        }); //classe anonima
+
     }
 
     private void display() {
